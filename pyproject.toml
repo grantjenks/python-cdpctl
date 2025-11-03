@@ -1,0 +1,53 @@
+[project]
+name = "cdpctl"
+version = "0.1.0"
+description = "Command-line interface for the Chrome DevTools Protocol"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Grant Jenks" },
+]
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "aiohttp>=3.9",
+]
+keywords = ["cdp", "chrome", "devtools", "cli"]
+urls.Homepage = "https://github.com/grantjenks/python-cdpctl"
+urls."Issue Tracker" = "https://github.com/grantjenks/python-cdpctl/issues"
+urls."Source Code" = "https://github.com/grantjenks/python-cdpctl"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "nox>=2024.4.15",
+]
+
+[project.scripts]
+cdpctl = "cdpctl.core:main"
+
+[tool.setuptools.packages.find]
+include = ["cdpctl*"]
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0",
+    "nox>=2024.4.15",
+]
