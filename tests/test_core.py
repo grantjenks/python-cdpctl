@@ -3,7 +3,20 @@ import asyncio
 
 import pytest
 
+pytest.importorskip("aiohttp")
+
+import cdpctl
+
 from cdpctl import core
+
+
+def test_package_reexports_core_symbols():
+    assert cdpctl.main is core.main
+    assert cdpctl.main_async is core.main_async
+    assert cdpctl.CdpClient is core.CdpClient
+    assert cdpctl.HttpClient is core.HttpClient
+    assert cdpctl.TargetInfo is core.TargetInfo
+    assert cdpctl.BooleanOptionalAction is core.BooleanOptionalAction
 
 
 def test_target_info_from_json_defaults():
@@ -43,3 +56,20 @@ async def _resolve_ws_url(client, monkeypatch):
 def test_http_client_resolve_ws_url(monkeypatch):
     client = core.HttpClient("localhost", 0, session=None)
     asyncio.run(_resolve_ws_url(client, monkeypatch))
+
+
+def test_dunder_main_delegates_to_core(monkeypatch):
+    from cdpctl import __main__ as cli_main
+
+    captured = {}
+
+    def fake_main(argv):
+        captured["argv"] = argv
+        return 7
+
+    monkeypatch.setattr(core, "main", fake_main)
+
+    result = cli_main.main(["list-tabs"])
+
+    assert result == 7
+    assert captured["argv"] == ["list-tabs"]
